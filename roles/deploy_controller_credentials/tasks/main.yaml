@@ -1,0 +1,35 @@
+---
+- name "Pre-flight validate SCM SSH Key"
+  vars:
+    ssh_keys_to_check: "{{ scm_ssh_credentials | default([]) }}"
+  block:
+    - name: Write SSH key to temporary file
+      copy:
+        content: "{{ item.inputs.ssh_key_data }}"
+        dest: "/tmp/{{ item.name }}_key"
+        mode: 0600
+      loop: "{{ ssh_keys_to_check }}"
+      loop_control:
+        label: {{ item.name }}
+        
+    - name: Validate SSH private format
+      command: ssh-keygen -yf /tmp/{{ item.name }}_key
+      loop: "{{ ssh_keys_to_check }}"
+      loop_control:
+        label: "{{ item.name }}"
+        
+ - name: "Ensure Credentials are configured"
+   ansible.controller.credential:
+     name: "{{ item.name }}"
+     description: "{{ item.description | default(omit) }}"
+     organization: "{{ item.organization | default('Default') }}"
+     credential_type: "{{ item.credential_type }}"
+     inputs: "{{ item.inputs }}"
+     state: "present"
+     controller_host: "{{ controller_host }}"
+     controller_oauthtoken: "{{ controller_temp_token }}"
+     validate_certs: "{{ controller_validate_certs }}"	
+   loop: "{{ scm_ssh_credentials | default([]) + controller_credentials | default([]) }}"
+   loop_control:
+     label: "{{ item.name }}"
+   no_log: true

@@ -1,0 +1,20 @@
+---
+- name: "Ensure AAP Projects are configured"
+  ansible.controller.project:
+    name: "{{ item.name }}"
+    organization: "{{ item.organization | default('Default') }}"
+    scm_type: "{{ item.scm_type }}"
+    scm_url: "{{ item.scm_url }}"
+    scm_credential: "{{ item.credential | default(omit) }}"
+    scm_update_on_launch: "{{ item.scm_credential | default(omit) }}"
+    scm_clean: "{{ item.scm_clean | default(omit) }}"
+    # Critical: force update and wait so playbooks are available
+    update_project: true
+    wait: true
+    state: "present"
+    controller_host: "{{ controller_host }}"
+    controller_oauthtoken: "{{ controller_temp_token }}"
+    validate_certs: "{{ controller_validate_certs }}"
+  loop: "{{ controller_projects }}"
+  loop_control:
+    label: "{{ item.name }}"

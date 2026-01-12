@@ -1,0 +1,9 @@
+---
+controller_projects:
+  - name: "GitLab"
+    organization: "Default"
+    scm_type: "git"
+    scm_url: "ssh://..."
+    scm_credential: "gitlab-ssh"
+    scm_update_on_launch: true
+    scm_clean: true

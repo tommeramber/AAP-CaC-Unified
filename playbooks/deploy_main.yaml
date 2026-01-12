@@ -1,0 +1,54 @@
+---
+- name: Manage AAP Configuration
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  vars_files:
+  - ../group_vars/controller_vars.yaml
+  - ../group_vars/eda_vars.yaml
+  
+  tasks:
+    - name: "Generate temporary OAuth2 token"
+      ansible.controller.token:
+        description: "Temp token for config-as-code run"
+        scope: "write"
+        state: "present"
+        controller_host: "{{ controller_host }}"
+        controller_username: "{{ ansible_user }}"
+        controller_password: "{{ ansible_password }}"
+        validate_certs: "{{ controller_validate_certs }}"
+      register: temp_token
+      no_log: true
+      
+    - name: Set Controller auth_token for all roles
+      set_fact:
+        controller_temp_token: "{{ temp_token.ansible_facts.controller_token.token }}" 
+      no_log: true
+
+    - block:
+      - include_role: { name: deploy_projects }
+      - include_role: { name: deploy_execution_environments }
+      - include_role: { name: deploy_credential_types }
+      - include_role: { name: deploy_inventories }
+      - include_role: { name: deploy_job_templates }
+      # EDA
+      - include_role: { name: deploy_eda_decision_environments }
+      - include_role: { name: deploy_eda_projects }
+      - include_role: { name: deploy_eda_credentials }
+      - include_role: { name: deploy_eda_rulebook_activations }
+      
+      rescue:
+      - debug:
+          msg: "Problem with a role"
+          
+      always:
+      - name: "Revoke temporary OAuth2 token"
+        ansible.controller.token:
+          existing_token_id: "{{ temp_token.ansible_facts.controller_token.id }}"
+          state: "absent"
+          controller_host: "{{ controller_host }}"
+          controller_username: "{{ ansible_user }}"
+          controller_password: "{{ ansible_password }}"
+          validate_certs: "{{ controller_validate_certs }}"			
+        no_log: true
+        when: temp_token.ansible_facts.controller_token is defined

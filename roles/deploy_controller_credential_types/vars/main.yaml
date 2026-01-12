@@ -1,0 +1,34 @@
+---
+credential_types:
+  - name: "OC Login"
+    kind: cloud
+    inputs:
+      fields:
+        - id: dev_ocp_api
+          type: string
+          label: Dev OCP API Endpoint
+        - id: dev_ocp_token
+          type: string
+          label: Dev OCP Token
+          secret: true
+        - id: prod_ocp_api
+          type: string
+          label: Prod OCP API Endpoint
+        - id: prod_ocp_token
+          type: string
+          label: Prod OCP Token
+          secret: true
+      required:
+        - dev_ocp_api
+        - dev_ocp_token
+        - prod_ocp_api
+        - prod_ocp_token
+    injectors:
+      env:
+        DEV_OCP_AUTH_API: !unsafe '{{ dev_ocp_api }}'
+        PROD_OCP_AUTH_API: !unsafe '{{ prod_ocp_api }}'
+        DEV_OCP_TOKEN: !unsafe '{{ dev_ocp_token }}'
+        PROD_OCP_TOKEN: !unsafe '{{ prod_ocp_token }}'
+		
+	#### EDA CONTROLLER CREDS - FRIENDS
+    

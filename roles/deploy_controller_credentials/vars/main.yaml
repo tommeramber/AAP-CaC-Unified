@@ -1,0 +1,28 @@
+---
+controller_credentials:
+  - name: "OCPs"
+    description: "ServiceAccount 'remote-app-admin-sa' token in 'openshift-aap' namespace on each cluster"
+    organization: "Default"
+    credential_type: "OC Login"
+    inputs:
+      dev_ocp_api: "https://api.dev...:6443"
+      prod_ocp_api: "https://api.prod...:6443"
+      dev_ocp_token: "XXX"
+      prod_ocp_token: "XXX"
+  - name: "registry"
+    organization: "Default"
+    credential_type: "Container Registry"
+    inputs:
+      username: "XXX"
+      password: "XXX"
+      host: "URL"
+    ### EDA
+   - name: "Satellite Inventory Integration"
+     organization: "Default"
+     description: "User for Satellite integration"
+     credential_Type: "Red Hat Satellite 6"
+     inputs:
+       username: "XXX"
+       password: "XXX"
+       host: "URL"
+       

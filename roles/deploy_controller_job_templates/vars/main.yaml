@@ -1,0 +1,15 @@
+---
+job_templates:
+  - name: "CaC"
+    organization: "Default"
+    inventory: "Demo Inventory"
+    project: "GitLab"
+    playbook: "CaC/deploy_main.yaml"
+    execution_environment: "ee-supported-rhel9"
+    credentials:
+      - "ansible controller creds for CaC"
+      - "Ansible-Vault decryption for CaC GitOps"
+      - ### EDA
+    job_type: run
+    verbositry: 0
+    ask_variables_on_launch: false

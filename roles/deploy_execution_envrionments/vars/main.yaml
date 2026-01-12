@@ -1,0 +1,6 @@
+---
+execution_environments:
+  - name: "ee-supported-rhel9"
+    description: "Red Hat Supported EE RHEL 9 <DATE>"
+    image: "<Registry>/<PATH/to/image>:<TAG>"
+    pull: always

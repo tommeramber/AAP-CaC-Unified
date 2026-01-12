@@ -1,0 +1,21 @@
+---
+- name: "Ensure Job Templates are configured"
+  ansible.controller.job_template:
+    name: "{{ item.name }}"
+    description: "{{ item.description | default(omit) }}"
+    organization: "{{ item.organization | default('Default') }}"
+    inventory: "{{ item.inventory | default('Demo Inventory') }}"
+    project: "{{ item.project }}"
+    execution_environment: "{{ item.execution_environment }}"
+    credentials: "{{ item.credentials | default(omit) }}"
+    job_type: "{{ item.job_type | default('run') }}"
+    verbositry: "{{ item.verbositry | default(0) }}"
+    ask_variables_on_launch: "{{ item.ask_variables_on_launch | default(false) }}"
+    state: "present"
+    controller_host: "{{ controller_host }}"
+    controller_oauthtoken: "{{ controller_temp_token }}"
+    validate_certs: "{{ controller_validate_certs }}"
+  loop: "{{ job_templates }}"
+  loop_control:
+    label: "{{ item.name }}"
+	

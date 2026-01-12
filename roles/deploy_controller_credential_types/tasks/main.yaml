@@ -1,0 +1,43 @@
+---
+- name: "Get all existing credential types to avoid patching existing types"
+  uri:
+    url: "{{ controller_host }}/api/v2/credential_types/"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ controller_temp_token }}"
+    validate_certs: "{{ controller_validate_certs }}"
+  register: existing_types_api
+  no_log: true
+  
+- name: "Extract existing types"
+  set_fact:
+    existing_types_names: "{{ existing_types_api.json.results | map(attribute='name') | list }}"
+	
+- name: "Deubg existing credential types only"
+  debug:
+    var: existing_types_names
+	
+- name: "Filter only missing credential types"
+  set_fact:
+    missing_credential_types: >-
+      {{ credential_types | rejectattr('name', 'in', existing_types_names) | list }}
+	  
+- name: Default missing credential types only
+  debug:
+    var: missing_credential_types
+	
+- name: "Ensure missing custom credential types are configured"
+  ansible.controller.credential_type:
+    name: "{{ item.name }}"
+    description: "{{ item.description | default(omit) }}"
+    kind: "{{ item.kind | default(cloud) }}"
+    inputs: "{{ item.inputs }}"
+    injectors: "{{ item.injectors }}"
+    state: "present"
+    controller_host: "{{ controller_host }}"
+    controller_oauthtoken: "{{ controller_temp_token }}"
+    validate_certs: "{{ controller_validate_certs }}"	
+  loop: "{{ missing_credential_types }}"
+  loop_control:
+    label: "{{ item.name }}"
+	
