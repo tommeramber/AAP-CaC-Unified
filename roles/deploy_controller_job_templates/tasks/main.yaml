@@ -4,12 +4,22 @@
     name: "{{ item.name }}"
     description: "{{ item.description | default(omit) }}"
     organization: "{{ item.organization | default('Default') }}"
+    # Optional 
+    #labels: "{{ item.labels | default(omit) }}"
     inventory: "{{ item.inventory | default('Demo Inventory') }}"
     project: "{{ item.project }}"
     execution_environment: "{{ item.execution_environment }}"
     credentials: "{{ item.credentials | default(omit) }}"
+    extra_vars: "{{ item.extra_vars | default({}) }}"
     job_type: "{{ item.job_type | default('run') }}"
     verbositry: "{{ item.verbositry | default(0) }}"
+    allow_simultaneous: "{{ item.allow_simultaneous | default(false) }}"
+    ask_limit_on_launch: "{{ item.ask_limit_on_launch | default(false) }}"
+    ask_credential_on_launch: "{{ item.ask_credential_on_launch | default(false) }}"
+    ask_tags_on_launch: "{{ item.ask_tags_on_launch | default(false) }}"
+    ask_skip_tags_on_launch: "{{ item.ask_skip_tags_on_launch | default(false) }}"
+    ask_inventory_on_launch: "{{ item.ask_inventory_on_launch | default(false) }}"
+
     ask_variables_on_launch: "{{ item.ask_variables_on_launch | default(false) }}"
     state: "present"
     controller_host: "{{ controller_host }}"
@@ -18,4 +28,3 @@
   loop: "{{ job_templates }}"
   loop_control:
     label: "{{ item.name }}"
-	

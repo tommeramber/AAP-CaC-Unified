@@ -1,0 +1,12 @@
+---
+- name: Ensure custom labels are configured
+  ansible.controller.label:
+    name: "{{ item.name }}"
+    organization: "{{ item.organization | default('Default')}}"
+    state: "present"
+    controller_host: "{{ controller_host }}"
+    controller_oauthtoken: "{{ controller_temp_token }}"
+    validate_certs: "{{ controller_validate_certs }}"	
+  loop: "{{controller_labels}}"
+  loop_control:
+    label: "{{ item.name }}"

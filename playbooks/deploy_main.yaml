@@ -29,6 +29,7 @@
       - include_role: { name: deploy_projects }
       - include_role: { name: deploy_execution_environments }
       - include_role: { name: deploy_credential_types }
+      - include_role: { name: deploy_credentials }
       - include_role: { name: deploy_inventories }
       - include_role: { name: deploy_job_templates }
       # EDA

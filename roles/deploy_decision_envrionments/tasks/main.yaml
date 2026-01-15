@@ -1,16 +1,16 @@
 ---
- name: ensure projects are configured
-  ansible.eda.project:
+- name: "Ensure custom Decision Environments"
+  ansible.eda.decision_environment:
     name: "{{ item.name }}"
+    image_url: "{{ item.image }}"
     description: "{{ item.description |default(omit)}}"
-    organization_name: "{{ item.organization | default('Default') }}"
-    credential: "{{ item.credential }}"
-    url: "{{ item.url }}" #branch not supported in eda.project module
+    organization: "{{ item.organization | default('Default') }}"
+    credential: "{{ item.credential | default(omit) }}"
     state: "present"
     controller_host: "{{ eda_host }}"
     controller_username: "{{eda_admin_username}}"
     controller_password: "{{eda_admin_password}}"
     validate_certs: "{{eda_validate_certs}}"
-  loop: "{{ eda_projects }}"
+  loop: "{{ decision_environments }}"
   loop_control:
     label: "{{ item.name }}"

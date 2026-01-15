@@ -1,0 +1,15 @@
+---
+- name: Ensure EDA Credentials are configured
+  ansible.eda.credential:
+    name: "{{ item.name }}"
+    credential_type_name: "{{ item.credential_type_name }}"
+    organization_name: "{{ item.organization | default('Default') }}"
+    inputs: "{{ item.inputs }}"
+    state: "present"
+    controller_host: "{{ eda_host }}"
+    controller_username: "{{eda_admin_username}}" # from eda custom creds
+    controller_password: "{{eda_admin_password}}" # from eda custom creds
+    validate_certs: "{{eda_validate_certs}}" # from eda custom creds
+    loop: "{{ eda_credentials }}"
+    loop_control:
+      label: "{{ item.name }}"

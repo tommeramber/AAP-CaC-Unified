@@ -4,12 +4,30 @@ job_templates:
     organization: "Default"
     inventory: "Demo Inventory"
     project: "GitLab"
-    playbook: "CaC/deploy_main.yaml"
+    playbook: "CaC/playbooks/deploy_main.yaml"
     execution_environment: "ee-supported-rhel9"
     credentials:
       - "ansible controller creds for CaC"
       - "Ansible-Vault decryption for CaC GitOps"
-      - ### EDA
-    job_type: run
+    job_type: "run"
     verbositry: 0
+    ask_variables_on_launch: false
+
+  - name: "openshit-example-template"
+    organization: "Default"
+    labels:
+    - "openshift"
+    inventory: "Demo Inventory"
+    project: "GitLab"
+    playbook: "playbooks/some_ocp_automation.yaml"
+    execution_environment: "custom-ocp_EE" #NEW
+    credentials:
+      - "GitLab credential"
+      - "openshift-token"
+      - "vault token" #if vault
+    job_type: "run"
+    verbositry: 0
+    extra_vars:
+      env: null
+      namespace: null
     ask_variables_on_launch: false

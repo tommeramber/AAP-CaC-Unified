@@ -1,0 +1,5 @@
+---
+eda_projects:
+  - name: "gitlab"
+    credential: "GitLab"
+    url: "https://gitlab......git" # branch not supported in eda.project module

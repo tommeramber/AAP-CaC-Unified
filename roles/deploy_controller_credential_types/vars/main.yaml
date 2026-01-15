@@ -30,5 +30,130 @@ credential_types:
         DEV_OCP_TOKEN: !unsafe '{{ dev_ocp_token }}'
         PROD_OCP_TOKEN: !unsafe '{{ prod_ocp_token }}'
 		
-	#### EDA CONTROLLER CREDS - FRIENDS
+  - name: "GitLab SSH Creds"
+    kind: "cloud"
+    inputs:
+      fields:
+        - id: "id_rsa"
+          type: "string"
+          label: "id_rsa"
+          secret: true
+      required:
+        - "id_rsa"
+    injectors:
+      extra_vars:
+        id_rsa: !unsafe '{{ id_rsa }}'
+
+  - name: "ArgoCD Creds"
+    kind: "cloud"
+    inputs:
+      fields:
+        - id: "argopassword"
+          type: "string"
+          label: "argopassword"
+          secret: true
+        - id: "argouser"
+          type: "string"
+          label: "argouser"
+          secret: true
+      required:
+        - "argopassword"
+        - "argouser"
+    injectors:
+      extra_vars:
+        argopassword: !unsafe '{{ argopassword }}'
+        argouser: !unsafe '{{ argouser }}'
+
+  - name: "hashi_vault_token"
+    kind: "cloud"
+    inputs:
+      fields:
+        - id: "vault_token_prd"
+          type: "string"
+          label: "vault_token_prd"
+          secret: true
+        - id: "vault_token_dev"
+          type: "string"
+          label: "vault_token_dev"
+          secret: true
+      required:
+        - "vault_token_prd"
+        - "vault_token_dev"
+    injectors:
+      extra_vars:
+        vault_token_prd: !unsafe '{{ vault_token_prd }}'
+        vault_token_dev: !unsafe '{{ vault_token_dev }}'
+
+  - name: "eda_creds"
+    kind: "cloud"
+    inputs:
+      fields:
+        - id: "eda_admin_username"
+          type: "string"
+          label: "eda_admin_username"
+        - id: "eda_admin_password"
+          type: "string"
+          label: "eda_admin_password"
+          secret: true
+        - id: "eda_registry_username"
+          type: "string"
+          label: "eda_registry_username"
+        - id: "eda_registry_password"
+          type: "string"
+          label: "eda_registry_password"
+          secret: true
+        - id: "eda_source_control_username"
+          type: "string"
+          label: "eda_source_control_username"
+        - id: "eda_source_control_password"
+          type: "string"
+          label: "eda_source_control_password"
+          secret: true
+        - id: "eda_aap_controller_username"
+          type: "string"
+          label: "eda_aap_controller_username"
+        - id: "eda_aap_controller_password"
+          type: "string"
+          label: "eda_aap_controller_password"
+          secret: true
+      required:
+        - "eda_admin_username"
+        - "eda_admin_password"
+        - "eda_registry_username"
+        - "eda_registry_password"
+        - "eda_source_control_username"
+        - "eda_source_control_password"
+        - "eda_aap_controller_username"
+        - "eda_aap_controller_password"
+    injectors:
+      extra_vars:
+        eda_admin_username: !unsafe '{{ eda_admin_username }}'
+        eda_admin_password: !unsafe '{{ eda_admin_password }}'
+        eda_registry_username: !unsafe '{{ eda_registry_username }}'
+        eda_registry_password: !unsafe '{{ eda_registry_password }}'
+        eda_source_control_username: !unsafe '{{ eda_source_control_username }}'
+        eda_source_control_password: !unsafe '{{ eda_source_control_password }}'
+        eda_aap_controller_username: !unsafe '{{ eda_aap_controller_username }}'
+        eda_aap_controller_password: !unsafe '{{ eda_aap_controller_password }}'
+        
+  - name: "some_ssh_key"
+    kind: "cloud"
+    inputs:
+      fields:
+        - id: "<hostname>_ssh_key"
+          type: "string"
+          label: "SSH Private Key for <Hostname>"
+          secret: true
+        - id: "username"
+          type: "string"
+          label: "username"
+      required:
+        - "username"
+        - "<hostname>_ssh_key"
+    injectors:
+      env:
+        MY_VAULT_SSH_KEY: !unsafe '{{ <hostname>_ssh_key }}'
+      extra_vars:
+        username: !unsafe '{{ username }}'
+        ansible_ssh_private_key_file: "/tmp/custom_ssh_key"
     

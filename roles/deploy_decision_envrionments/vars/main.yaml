@@ -1,0 +1,7 @@
+---
+decision_environments:
+  - name: "de-supported-rhel9"
+    image: "<registry>/<path-to-image-in-repo>/<image>:<tag>"
+    description: "eda"
+    organization: "Default"
+    credential: "Private Registry Auth"

@@ -1,0 +1,10 @@
+---
+- name: Configure EDA
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+  - ../group_vars/eda_vars.yaml
+  tasks:
+    - block:
+      - include_role: { name: deploy_eda_credentials.yaml }

@@ -1,6 +1,6 @@
 # AAP-CaC-Unified
 
-# Required to do manualy before running the playbook
+## Required to do manualy before running the playbook
 1. Create the following credentials:
   1. ansible controller creds for CaC
      * **Type**: Machine
@@ -49,7 +49,14 @@
 
 Run the job template and it will configure everything else
 
-# Dependencies
+## Dependencies
 1. **`CaC` Job Template** must have: project `GitLab` and credentials `ansible controller creds for CaC` AND `Ansible-Vault decryption for CaC GitOps` and EE `ee-supported-rhel9` configured
 2. **Project** must have: `GitLab` credential configured
 3. **EE** must have: `registry` credential configured
+
+# CaC-EDA
+## Manual configuration before running the playbook
+Run the CaC playbook and it will configure everything else , than run the CaC-EDA Playbook
+
+## Rational - Vault Bridge
+Since `EDA Controller` currently lacks the deep HashiCorp Vault integration that `AAP Controller` has, we're effectivly using the `AAP Controller` as a `"secure secrets proxy"` to fetch secrets from Vault and inject them during the CaC playbook run, that later injects them into the CaC-EDA configuration using the EDA custom credential that hold all the secrets relevant to EDA in a single creds type, which we attach to the CaC-EDA job template
