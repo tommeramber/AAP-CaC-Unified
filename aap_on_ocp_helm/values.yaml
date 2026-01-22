@@ -1,0 +1,11 @@
+namespace: openshift-aap
+username: aap
+password: <PASS>
+port: "5432"
+sslmode: prefer
+type: unmanaged
+secrets:
+  - db: gateway
+  - db: controller
+  - db: hub
+  - db: eda

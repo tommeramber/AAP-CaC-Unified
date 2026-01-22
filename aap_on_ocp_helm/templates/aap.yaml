@@ -1,0 +1,28 @@
+apiVersion: aap.ansible.com/v1alpha1
+kind: AnsibleAutomationPlatform
+metadata:
+  name: aap
+  namespace: {{ .Values.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  bundle_cacert_secert: custom-ca-bundle
+  route_tls_termination_mechanism: Edge
+  no_log: true
+  redis_mode: standalone
+  api:
+    log_level: INFO
+    replicas: 1
+  database:
+    postgres_data_volume_init: false
+  service_type: ClusterIP
+  ingress_type: Route
+  database:
+    database_secret: extenral-postgresql-configuration-gateway
+  controller:
+    postgres_configuration_secret: extenral-postgresql-configuration-controller
+  hub:
+    postgres_configuration_secret: extenral-postgresql-configuration-hub
+  eda:
+    database:
+      database_secret: extenral-postgresql-configuration-eda
