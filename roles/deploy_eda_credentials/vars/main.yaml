@@ -1,19 +1,24 @@
 eda_credentials:
   - name: "Private Registry Auth"
     description: "Private Registry Auth"
+    credential_type_name: "Container Registry"
     organization: "Default"
     inputs:
       username: "{{ eda_registry_username }}"
       password: "{{ eda_registry_password }}"
       host: "{{ eda_registry_host }}" # from eda custom creds
+      
   - name: "GitLab"
     description: "GitLab"
+    credential_type_name: "Source Control"
     organization: "Default"
     inputs:
       username: "{{ eda_source_control_username }}"
       password: "{{ eda_source_control_password }}" # from eda custom creds
+
   - name: "AAP Controller"
     description: "Red Hat Ansible Automation Platform Controller"
+    credential_type_name: "Red Hat Ansible Automation Platform Controller"
     organization: "Default"
     inputs:
       username: "{{ eda_aap_controller_username }}" # from eda custom creds

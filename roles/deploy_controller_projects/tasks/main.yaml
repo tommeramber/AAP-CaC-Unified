@@ -5,7 +5,7 @@
     organization: "{{ item.organization | default('Default') }}"
     scm_type: "{{ item.scm_type }}"
     scm_url: "{{ item.scm_url }}"
-    scm_credential: "{{ item.credential | default(omit) }}"
+    scm_credential: "{{ item.credential | default("Control Plane Execution Environment") }}"
     scm_update_on_launch: "{{ item.scm_credential | default(omit) }}"
     scm_clean: "{{ item.scm_clean | default(omit) }}"
     # Critical: force update and wait so playbooks are available
