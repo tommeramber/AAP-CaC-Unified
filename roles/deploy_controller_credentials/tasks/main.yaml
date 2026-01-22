@@ -17,8 +17,10 @@
       loop: "{{ ssh_keys_to_check }}"
       loop_control:
         label: "{{ item.name }}"
+  when: not with_hashi_vault
+
         
- - name: "Ensure Credentials are configured"
+ - name: "Ensure Credentials are configured (without Hashi Vault)"
    ansible.controller.credential:
      name: "{{ item.name }}"
      description: "{{ item.description | default(omit) }}"
@@ -33,3 +35,21 @@
    loop_control:
      label: "{{ item.name }}"
    no_log: true
+   when: not with_hashi_vault
+
+ - name: "Ensure Credentials are configured (with Hashi Vault)"
+   ansible.controller.credential:
+     name: "{{ item.name }}"
+     description: "{{ item.description | default(omit) }}"
+     organization: "{{ item.organization | default('Default') }}"
+     credential_type: "{{ item.credential_type }}"
+     inputs: "{{ item.inputs }}"
+     state: "present"
+     controller_host: "{{ controller_host }}"
+     controller_oauthtoken: "{{ controller_temp_token }}"
+     validate_certs: "{{ controller_validate_certs }}"	
+   loop: "{{ controller_credentials_from_vault }}"
+   loop_control:
+     label: "{{ item.name }}"
+   no_log: true
+   when: with_hashi_vault

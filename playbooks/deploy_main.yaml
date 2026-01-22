@@ -5,7 +5,6 @@
   connection: local
   vars_files:
   - ../group_vars/controller_vars.yaml
-  - ../group_vars/eda_vars.yaml
   
   tasks:
     - name: "Generate temporary OAuth2 token"
@@ -26,17 +25,17 @@
       no_log: true
 
     - block:
-      - include_role: { name: deploy_projects }
-      - include_role: { name: deploy_execution_environments }
-      - include_role: { name: deploy_credential_types }
-      - include_role: { name: deploy_credentials }
-      - include_role: { name: deploy_inventories }
-      - include_role: { name: deploy_job_templates }
-      # EDA
-      - include_role: { name: deploy_eda_decision_environments }
-      - include_role: { name: deploy_eda_projects }
-      - include_role: { name: deploy_eda_credentials }
-      - include_role: { name: deploy_eda_rulebook_activations }
+      - include_role: { name: deploy_controller_projects }
+      - include_role: { name: deploy_controller_execution_envrionments }
+      - include_role: { name: deploy_controller_credential_types }
+
+      - include_role: 
+          name: deploy_controller_credentials
+          vars:
+            with_hashi_vault: true #or false
+
+      - include_role: { name: deploy_controller_inventories }
+      - include_role: { name: deploy_controller_job_templates }
       
       rescue:
       - debug:

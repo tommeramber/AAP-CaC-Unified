@@ -1,0 +1,11 @@
+---
+rulebook_activations:
+  - name: "alertmanager-webhook"
+    project: "gitlab"
+    activation_rulebook: "alertmanager_webhook_listener.yaml"
+    decision_environment: "de-supported-rhel9"
+    restart_policy: "on-failure"
+    log_level: "debug"
+    service_name: "alertmanager-webhook"
+    credential: "aap controller"
+    organization: "Default"

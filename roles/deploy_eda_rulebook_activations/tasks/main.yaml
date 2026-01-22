@@ -1,0 +1,22 @@
+---
+- name: Ensure Rulebook Activatoins are configured
+  ansible.eda.rulebook_activation:
+    name: "{{ item.name }}"
+    description: "{{ item.description | default(omit) }}"
+    organization: "{{ item.organization }}"
+    project_name: "{{ item.project }}"
+    rulebook: "{{ item.activation_rulebook }}"
+    decision_environment_name: "{{ item.decision_environment }}"
+    eda_credentials: "{{ item.credential }}"
+    restart_policy: "{{ item.restart_policy }}"
+    enabled: true
+    k8s_service_name: "{{ item.service_name }}"
+    log_level: "{{ item.log_level }}"
+    state: "present"
+    controller_host: "{{ eda_host }}"
+    controller_username: "{{eda_admin_username}}" # from eda custom creds
+    controller_password: "{{eda_admin_password}}" # from eda custom creds
+    validate_certs: "{{eda_validate_certs}}" # from eda custom creds
+    loop: "{{ rulebook_activations }}"
+    loop_control:
+      label: "{{ item.name }}"

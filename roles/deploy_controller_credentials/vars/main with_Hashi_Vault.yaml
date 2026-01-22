@@ -1,0 +1,102 @@
+---
+controller_credentials_from_vault:
+  - name: "GitLab Credential"
+    credential_type: "GitLab Credential" #Custom
+    # Static Inputs (Leave empty if everything comes from Vault)
+    inpus: {}
+    input_sources:
+      - input_field_name: "id_rsa"
+        source_credential: "HashiCorp Vault Secret Lookup Integration"
+        metadata:
+          secret_path: <namespace>/aap
+          secret_key: "id_rsa"
+
+  - name: "ArgoCD Credential"
+    credential_type: "ArgoCD Credential" #Custom
+    # Static Inputs (Leave empty if everything comes from Vault)
+    inpus: {}
+    input_sources:
+      - input_field_name: "argouser"
+        source_credential: "HashiCorp Vault Secret Lookup Integration"
+        metadata:
+          secret_path: <namespace>/aap
+          secret_key: "argouser"
+      - input_field_name: "argopassword"
+        source_credential: "HashiCorp Vault Secret Lookup Integration"
+        metadata:
+          secret_path: <namespace>/aap
+          secret_key: "argopassword"
+
+  - name: "openshift token"
+    credential_type: "OC Login" #Custom
+    # Static Inputs (Leave empty if everything comes from Vault)
+    inpus: {}
+    input_sources:
+      - input_field_name: "dev_ocp_token"
+        source_credential: "HashiCorp Vault Secret Lookup Integration"
+        metadata:
+          secret_path: <namespace>/aap
+          secret_key: "dev_ocp_token"
+      - input_field_name: "dev_ocp_api"
+        source_credential: "HashiCorp Vault Secret Lookup Integration"
+        metadata:
+          secret_path: <namespace>/aap
+          secret_key: "dev_ocp_api"
+      - input_field_name: "prod_ocp_api"
+        source_credential: "HashiCorp Vault Secret Lookup Integration"
+        metadata:
+          secret_path: <namespace>/aap
+          secret_key: "prod_ocp_api"
+      - input_field_name: "prod_ocp_token"
+        source_credential: "HashiCorp Vault Secret Lookup Integration"
+        metadata:
+          secret_path: <namespace>/aap
+          secret_key: "prod_ocp_token"
+
+  - name: "vault token"
+    credential_type: "vault_token" #Custom
+    # Static Inputs (Leave empty if everything comes from Vault)
+    inpus: {}
+    input_sources:
+      - input_field_name: "vault_token_prd"
+        source_credential: "HashiCorp Vault Secret Lookup Integration"
+        metadata:
+          secret_path: <namespace>/aap
+          secret_key: "vault_token_prd"
+      - input_field_name: "vault_token_dev"
+        source_credential: "HashiCorp Vault Secret Lookup Integration"
+        metadata:
+          secret_path: <namespace>/aap
+          secret_key: "vault_token_dev"
+
+  - name: "eda creds for CaC"
+    credential_type: "eda_creds" #Custom
+    # Static Inputs (Leave empty if everything comes from Vault)
+    inpus: 
+      eda_registry_username: "<Applicative user with registry pull access>"
+      eda_source_control_username: "<Applicative user with git pull access>"
+      eda_aap_controller_username: "admin" #from the `aap controller admin` secret in the namespace the aap is installed at
+      eda_admin_username: "admin" #from the `eda controller admin` secret in the namespace the aap is installed at
+
+    input_sources:
+      - input_field_name: "eda_registry_password"
+        source_credential: "HashiCorp Vault Secret Lookup Integration"
+        metadata:
+          secret_path: <namespace>/aap
+          secret_key: "eda_registry_password"
+      - input_field_name: "eda_source_control_password"
+        source_credential: "HashiCorp Vault Secret Lookup Integration"
+        metadata:
+          secret_path: <namespace>/aap
+          secret_key: "eda_source_control_password"
+      - input_field_name: "eda_aap_controller_password"
+        source_credential: "HashiCorp Vault Secret Lookup Integration"
+        metadata:
+          secret_path: <namespace>/aap
+          secret_key: "eda_aap_controller_password"
+      - input_field_name: "eda_admin_password"
+        source_credential: "HashiCorp Vault Secret Lookup Integration"
+        metadata:
+          secret_path: <namespace>/aap
+          secret_key: "eda_admin_password"
+       

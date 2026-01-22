@@ -25,7 +25,6 @@
    * **organization**: Default
    * **Registry Credential**: registry
    * **Pull**: always
-
      
 3. Create the following Project
    * **Name**: GitLab
@@ -47,7 +46,11 @@
    
 5. LDAPS - from Medium
 
-Run the job template and it will configure everything else
+## Creds to populate in Job templates:
+CaC - `AAP Controller ADMIN LOGIN`
+CaC-EDA - `eda-creds-for-CaC` (env vars works seemlessly)
+
+**Finaly - Run the job template and it will configure everything else**
 
 ## Dependencies
 1. **`CaC` Job Template** must have: project `GitLab` and credentials `ansible controller creds for CaC` AND `Ansible-Vault decryption for CaC GitOps` and EE `ee-supported-rhel9` configured
